@@ -15,7 +15,6 @@ import {
   SidebarMenuAction,
   SidebarMenuBadge,
 } from "@/components/ui/sidebar";
-
 export function AppSidebar(): JSX.Element {
   return (
     <Sidebar>
@@ -49,9 +48,7 @@ export function AppSidebar(): JSX.Element {
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
-
         <SidebarSeparator />
-
         <SidebarGroup>
           <SidebarGroupLabel>Quick Links</SidebarGroupLabel>
           <SidebarMenu>
