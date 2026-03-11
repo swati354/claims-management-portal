@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback, useEffect } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { usePolling } from '@/hooks/usePolling';
 import { Cases, CaseInstances } from '@uipath/uipath-typescript/cases';
@@ -21,7 +21,7 @@ interface ClaimsData {
   instances: CaseInstanceGetResponse[];
 }
 export function ClaimsListPage() {
-  const { sdk, isAuthenticated, login } = useAuth();
+  const { sdk, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const cases = useMemo(() => sdk ? new Cases(sdk) : null, [sdk]);
   const caseInstances = useMemo(() => sdk ? new CaseInstances(sdk) : null, [sdk]);
@@ -67,7 +67,7 @@ export function ClaimsListPage() {
     const start = (currentPage - 1) * pageSize;
     return filteredInstances.slice(start, start + pageSize);
   }, [filteredInstances, currentPage]);
-  useEffect(() => {
+  useMemo(() => {
     setCurrentPage(1);
   }, [searchTerm, statusFilter]);
   const handleRowClick = (instanceId: string, folderKey: string) => {
@@ -80,12 +80,6 @@ export function ClaimsListPage() {
           <div className="text-center space-y-4">
             <h2 className="text-2xl font-semibold text-gray-900">Authentication Required</h2>
             <p className="text-gray-600">Please log in to access the Claims Portal</p>
-            <Button 
-              onClick={login}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              Log In
-            </Button>
           </div>
         </div>
       </AppLayout>
