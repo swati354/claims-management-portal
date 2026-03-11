@@ -1,6 +1,7 @@
 import { useMemo, useState, useCallback, useRef } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { usePolling } from '@/hooks/usePolling';
+import { ProcessInstances } from '@uipath/uipath-typescript/maestro-processes';
 import { CaseInstances } from '@uipath/uipath-typescript/cases';
 import type { CaseInstanceGetResponse, CaseGetStageResponse } from '@uipath/uipath-typescript/cases';
 import type { GlobalVariableMetaData } from '@uipath/uipath-typescript/maestro-processes';
@@ -39,6 +40,7 @@ export function ClaimDetailPage() {
   const [searchParams] = useSearchParams();
   const folderKey = searchParams.get('folderKey');
   const caseInstances = useMemo(() => sdk ? new CaseInstances(sdk) : null, [sdk]);
+  const processInstances = useMemo(() => sdk ? new ProcessInstances(sdk) : null, [sdk]);
   const [activeTab, setActiveTab] = useState('data');
   const fetchClaimDetail = useCallback(async (): Promise<ClaimDetailData> => {
     if (!caseInstances || !instanceId || !folderKey) throw new Error('Missing required parameters');
@@ -48,7 +50,7 @@ export function ClaimDetailPage() {
     let retries = 3;
     while (retries > 0) {
       try {
-        variables = await (caseInstances as any).getVariables(instanceId, folderKey);
+        variables = await processInstances!.getVariables(instanceId, folderKey);
         break;
       } catch (err) {
         retries--;
@@ -61,7 +63,7 @@ export function ClaimDetailPage() {
       }
     }
     return { instance, stages, variables };
-  }, [caseInstances, instanceId, folderKey]);
+  }, [caseInstances, processInstances, instanceId, folderKey]);
   const { data, isLoading, error, isActive } = usePolling<ClaimDetailData>({
     fetchFn: fetchClaimDetail,
     interval: 5000,
