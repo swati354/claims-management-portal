@@ -12,6 +12,9 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import { CaseTimeline } from '@/components/CaseTimeline';
 import { CaseDataTable } from '@/components/CaseDataTable';
+import { DocumentsTab } from '@/components/DocumentsTab';
+import { TasksTab } from '@/components/TasksTab';
+import { AuditTab } from '@/components/AuditTab';
 const STATUS_BADGE_COLORS: Record<string, string> = {
   Running: 'bg-blue-100 text-blue-700',
   Completed: 'bg-green-100 text-green-700',
@@ -210,19 +213,13 @@ export function ClaimDetailPage() {
             </div>
           </TabsContent>
           <TabsContent value="documents">
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <p className="text-sm text-gray-500">Documents tab - Coming in next phase</p>
-            </div>
+            <DocumentsTab instanceId={instanceId} folderKey={folderKey} />
           </TabsContent>
           <TabsContent value="tasks">
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <p className="text-sm text-gray-500">Tasks tab - Coming in next phase</p>
-            </div>
+            <TasksTab instanceId={instanceId} folderKey={folderKey} />
           </TabsContent>
           <TabsContent value="audit">
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <p className="text-sm text-gray-500">Audit tab - Coming in next phase</p>
-            </div>
+            <AuditTab instanceId={instanceId} folderKey={folderKey} />
           </TabsContent>
         </Tabs>
       </div>
