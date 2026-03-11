@@ -1,7 +1,6 @@
 import { useMemo, useState, useCallback, useRef } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { usePolling } from '@/hooks/usePolling';
-import { ProcessInstances } from '@uipath/uipath-typescript/maestro-processes';
 import { CaseInstances } from '@uipath/uipath-typescript/cases';
 import type { CaseInstanceGetResponse, CaseGetStageResponse } from '@uipath/uipath-typescript/cases';
 import type { GlobalVariableMetaData } from '@uipath/uipath-typescript/maestro-processes';
@@ -13,9 +12,6 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { format } from 'date-fns';
 import { CaseTimeline } from '@/components/CaseTimeline';
 import { CaseDataTable } from '@/components/CaseDataTable';
-import { DocumentsTab } from '@/components/DocumentsTab';
-import { TasksTab } from '@/components/TasksTab';
-import { AuditTab } from '@/components/AuditTab';
 const STATUS_BADGE_COLORS: Record<string, string> = {
   Running: 'bg-blue-100 text-blue-700',
   Completed: 'bg-green-100 text-green-700',
@@ -34,13 +30,12 @@ interface ClaimDetailData {
   };
 }
 export function ClaimDetailPage() {
-  const { sdk, isAuthenticated, login } = useAuth();
+  const { sdk, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const { instanceId } = useParams<{ instanceId: string }>();
   const [searchParams] = useSearchParams();
   const folderKey = searchParams.get('folderKey');
   const caseInstances = useMemo(() => sdk ? new CaseInstances(sdk) : null, [sdk]);
-  const processInstances = useMemo(() => sdk ? new ProcessInstances(sdk) : null, [sdk]);
   const [activeTab, setActiveTab] = useState('data');
   const fetchClaimDetail = useCallback(async (): Promise<ClaimDetailData> => {
     if (!caseInstances || !instanceId || !folderKey) throw new Error('Missing required parameters');
@@ -50,7 +45,7 @@ export function ClaimDetailPage() {
     let retries = 3;
     while (retries > 0) {
       try {
-        variables = await processInstances!.getVariables(instanceId, folderKey);
+        variables = await (caseInstances as any).getVariables(instanceId, folderKey);
         break;
       } catch (err) {
         retries--;
@@ -63,7 +58,7 @@ export function ClaimDetailPage() {
       }
     }
     return { instance, stages, variables };
-  }, [caseInstances, processInstances, instanceId, folderKey]);
+  }, [caseInstances, instanceId, folderKey]);
   const { data, isLoading, error, isActive } = usePolling<ClaimDetailData>({
     fetchFn: fetchClaimDetail,
     interval: 5000,
@@ -96,12 +91,6 @@ export function ClaimDetailPage() {
           <div className="text-center space-y-4">
             <h2 className="text-2xl font-semibold text-gray-900">Authentication Required</h2>
             <p className="text-gray-600">Please log in to access the Claims Portal</p>
-            <Button 
-              onClick={login}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              Log In
-            </Button>
           </div>
         </div>
       </AppLayout>
@@ -221,13 +210,19 @@ export function ClaimDetailPage() {
             </div>
           </TabsContent>
           <TabsContent value="documents">
-            <DocumentsTab instanceId={instanceId} folderKey={folderKey} />
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <p className="text-sm text-gray-500">Documents tab - Coming in next phase</p>
+            </div>
           </TabsContent>
           <TabsContent value="tasks">
-            <TasksTab instanceId={instanceId} folderKey={folderKey} />
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <p className="text-sm text-gray-500">Tasks tab - Coming in next phase</p>
+            </div>
           </TabsContent>
           <TabsContent value="audit">
-            <AuditTab instanceId={instanceId} folderKey={folderKey} />
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <p className="text-sm text-gray-500">Audit tab - Coming in next phase</p>
+            </div>
           </TabsContent>
         </Tabs>
       </div>

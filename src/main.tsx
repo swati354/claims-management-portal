@@ -8,6 +8,7 @@ import { AuthProvider } from '@/hooks/useAuth';
 import '@/index.css';
 import { HomePage } from '@/pages/HomePage';
 import { ClaimsListPage } from '@/pages/ClaimsListPage';
+import { ClaimDetailPage } from '@/pages/ClaimDetailPage';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')!).render(
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/claims" element={<ClaimsListPage />} />
+            <Route path="/claims/:instanceId" element={<ClaimDetailPage />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

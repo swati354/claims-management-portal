@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState, useCallback, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { usePolling } from '@/hooks/usePolling';
 import { Cases, CaseInstances } from '@uipath/uipath-typescript/cases';
@@ -67,7 +67,7 @@ export function ClaimsListPage() {
     const start = (currentPage - 1) * pageSize;
     return filteredInstances.slice(start, start + pageSize);
   }, [filteredInstances, currentPage]);
-  useMemo(() => {
+  useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, statusFilter]);
   const handleRowClick = (instanceId: string, folderKey: string) => {
