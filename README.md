@@ -2,7 +2,7 @@
 
 A comprehensive enterprise claims management portal for Home HO-5 insurance claims officers. Built with React, TypeScript, and the UiPath SDK, this application provides real-time visibility into active claims, detailed case analytics, stage progression tracking, and comprehensive audit trails.
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/swati354/claims-management-portal)
 
 ## Overview
 
@@ -171,7 +171,7 @@ The case timeline shows visual progression through all stages with completion in
 
 ### Deploy to Cloudflare Pages
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/swati354/claims-management-portal)
 
 #### Manual Deployment
 
