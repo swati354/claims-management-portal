@@ -34,7 +34,7 @@ interface ClaimDetailData {
   };
 }
 export function ClaimDetailPage() {
-  const { sdk, isAuthenticated } = useAuth();
+  const { sdk, isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
   const { instanceId } = useParams<{ instanceId: string }>();
   const [searchParams] = useSearchParams();
@@ -96,6 +96,12 @@ export function ClaimDetailPage() {
           <div className="text-center space-y-4">
             <h2 className="text-2xl font-semibold text-gray-900">Authentication Required</h2>
             <p className="text-gray-600">Please log in to access the Claims Portal</p>
+            <Button 
+              onClick={login}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              Log In
+            </Button>
           </div>
         </div>
       </AppLayout>
